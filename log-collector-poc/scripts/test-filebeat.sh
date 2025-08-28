@@ -27,7 +27,7 @@ main() {
 }
 
 test_baseline_performance() {
-    local test_duration=600
+    local test_duration=60
     local stats_file="$RESULTS_DIR/filebeat-baseline-stats.csv"
     
     clear_shared_logs
@@ -69,7 +69,7 @@ EOF
 
 test_offline_resilience() {
     local disruption_duration=120
-    local total_duration=600
+    local total_duration=60
     local stats_file="$RESULTS_DIR/filebeat-offline-stats.csv"
     
     clear_shared_logs

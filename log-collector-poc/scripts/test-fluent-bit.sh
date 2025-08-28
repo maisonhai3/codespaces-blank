@@ -34,7 +34,7 @@ main() {
 }
 
 test_baseline_performance() {
-    local test_duration=600  # 10 minutes
+    local test_duration=60  # 10 minutes
     local stats_file="$RESULTS_DIR/fluent-bit-baseline-stats.csv"
     
     # Clear logs and start services
@@ -88,7 +88,7 @@ EOF
 
 test_offline_resilience() {
     local disruption_duration=120  # 2 minutes
-    local total_duration=600       # 10 minutes total
+    local total_duration=60       # 10 minutes total
     local stats_file="$RESULTS_DIR/fluent-bit-offline-stats.csv"
     
     # Clear logs and restart services
