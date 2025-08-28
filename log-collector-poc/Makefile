@@ -125,7 +125,7 @@ test-baseline: ## Run baseline test only (specify TOOL=fluent-bit)
 	else \
 		echo "Running baseline test for $(TOOL)..."; \
 		docker-compose down; \
-		LOG_RATE=50 docker-compose --profile $(TOOL) up -d; \
+		LOG_RATE=10000 docker-compose --profile $(TOOL) up -d; \
 		sleep 60; \
 		echo "Test running... Check with: make count-logs"; \
 	fi

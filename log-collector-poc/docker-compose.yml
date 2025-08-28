@@ -4,7 +4,7 @@ services:
     build: ./log-generator
     environment:
       - LOG_DIR=/shared-logs
-      - LOG_RATE=50
+      - LOG_RATE=10000
     volumes:
       - shared-logs:/shared-logs
     restart: unless-stopped

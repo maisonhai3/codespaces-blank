@@ -53,7 +53,7 @@ test_baseline_performance() {
 ### Test 1: Baseline Performance
 
 **Duration:** ${test_duration} seconds (10 minutes)
-**Log Rate:** 50 logs/second
+**Log Rate:** 10000 logs/second
 **Logs Processed:** $logs_processed
 **Throughput:** $throughput logs/second
 
@@ -116,7 +116,7 @@ EOF
 
 test_backpressure_handling() {
     local test_duration=300
-    local high_rate=1000
+    local high_rate=10000
     local stats_file="$RESULTS_DIR/vector-backpressure-stats.csv"
     
     clear_shared_logs
@@ -140,7 +140,7 @@ test_backpressure_handling() {
     local throughput=$(echo "scale=2; $logs_processed / $test_duration" | bc)
     local analysis=$(analyze_stats "$stats_file" "vector")
     
-    set_log_rate 50
+    set_log_rate 10000
     
     cat >> "$RESULTS_FILE" << EOF
 ### Test 3: Backpressure Handling

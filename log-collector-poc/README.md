@@ -32,7 +32,7 @@ log-collector-poc/
 
 ### 1. Baseline Performance
 - Đo CPU/RAM usage và throughput bình thường
-- Tốc độ: 50 logs/second trong 10 phút
+- Tốc độ: 10000 logs/second trong 10 phút
 
 ### 2. Offline Resilience 
 - Test khả năng recover khi mất kết nối
