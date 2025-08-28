@@ -1,0 +1,126 @@
+services:
+  # Log Generator Service
+  log-generator:
+    build: ./log-generator
+    environment:
+      - LOG_DIR=/shared-logs
+      - LOG_RATE=50
+    volumes:
+      - shared-logs:/shared-logs
+    restart: unless-stopped
+    networks:
+      - log-network
+
+  # Elasticsearch
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - es-data:/usr/share/elasticsearch/data
+    networks:
+      - log-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # Kibana for visualization
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.11.0
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - log-network
+
+  # Fluent Bit Collector
+  fluent-bit:
+    image: fluent/fluent-bit:2.2
+    volumes:
+      - ./collectors/fluent-bit/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
+      - ./collectors/fluent-bit/parsers.conf:/fluent-bit/etc/parsers.conf
+      - shared-logs:/shared-logs:ro
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - log-network
+    profiles:
+      - fluent-bit
+
+  # Filebeat Collector  
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.11.0
+    user: root
+    volumes:
+      - ./collectors/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - shared-logs:/shared-logs:ro
+      - filebeat-data:/usr/share/filebeat/data
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - log-network
+    profiles:
+      - filebeat
+
+  # Vector Collector
+  vector:
+    image: timberio/vector:0.34.0-alpine
+    volumes:
+      - ./collectors/vector/vector.toml:/etc/vector/vector.toml:ro
+      - shared-logs:/shared-logs:ro
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - log-network
+    profiles:
+      - vector
+
+  # Logstash Collector
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.11.0
+    environment:
+      - "LS_JAVA_OPTS=-Xmx1g -Xms1g"
+    volumes:
+      - ./collectors/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro
+      - shared-logs:/shared-logs:ro
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - log-network
+    profiles:
+      - logstash
+
+  # Toxiproxy for simulating network issues
+  toxiproxy:
+    image: ghcr.io/shopify/toxiproxy:2.5.0
+    ports:
+      - "8474:8474"  # API port
+      - "9201:9201"  # Proxy port for Elasticsearch
+    networks:
+      - log-network
+    profiles:
+      - toxiproxy
+
+volumes:
+  shared-logs:
+  es-data:
+  filebeat-data:
+
+networks:
+  log-network:
+    driver: bridge

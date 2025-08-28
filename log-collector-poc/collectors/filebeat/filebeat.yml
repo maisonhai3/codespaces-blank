@@ -1,0 +1,28 @@
+filebeat.inputs:
+- type: log
+  enabled: true
+  paths:
+    - /shared-logs/aiscout.log
+  json.keys_under_root: true
+  json.add_error_key: true
+  fields:
+    logtype: aiscout
+  fields_under_root: true
+
+output.elasticsearch:
+  hosts: ["elasticsearch:9200"]
+  index: "aiscout-logs"
+  
+processors:
+  - add_host_metadata:
+      when.not.contains.tags: forwarded
+      
+logging.level: info
+logging.to_files: true
+logging.files:
+  path: /var/log/filebeat
+  name: filebeat
+  keepfiles: 7
+  permissions: 0644
+
+monitoring.enabled: true
