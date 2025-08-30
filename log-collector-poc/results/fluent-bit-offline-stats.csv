@@ -1,0 +1,10 @@
+Timestamp,Container,CPU%,Memory,MemoryPerc,NetworkIO,BlockIO
+2025-08-30 03:08:27,log-collector-poc-fluent-bit-1,50.00%,1.127GiB / 7.758GiB,14.52%,23.6MB / 2.76GB,3.78GB / 0B
+2025-08-30 03:08:34,log-collector-poc-fluent-bit-1,56.55%,1.332GiB / 7.758GiB,17.17%,23.8MB / 2.86GB,3.97GB / 0B
+2025-08-30 03:08:41,log-collector-poc-fluent-bit-1,49.24%,1.366GiB / 7.758GiB,17.60%,24.8MB / 2.98GB,4.19GB / 0B
+2025-08-30 03:08:47,log-collector-poc-fluent-bit-1,55.29%,1.549GiB / 7.758GiB,19.96%,24.9MB / 3.02GB,4.39GB / 0B
+2025-08-30 03:08:54,log-collector-poc-fluent-bit-1,57.08%,1.661GiB / 7.758GiB,21.41%,27MB / 3.11GB,4.61GB / 0B
+2025-08-30 03:09:01,log-collector-poc-fluent-bit-1,53.47%,1.759GiB / 7.758GiB,22.67%,27.3MB / 3.23GB,4.79GB / 0B
+2025-08-30 03:09:07,log-collector-poc-fluent-bit-1,58.03%,1.879GiB / 7.758GiB,24.22%,28.6MB / 3.35GB,4.79GB / 0B
+2025-08-30 03:09:14,log-collector-poc-fluent-bit-1,61.10%,1.942GiB / 7.758GiB,25.03%,29MB / 3.54GB,4.79GB / 0B
+2025-08-30 03:09:21,log-collector-poc-fluent-bit-1,64.15%,2.033GiB / 7.758GiB,26.21%,30.8MB / 3.68GB,4.79GB / 0B

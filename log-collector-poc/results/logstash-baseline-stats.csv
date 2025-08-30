@@ -1,0 +1,11 @@
+Timestamp,Container,CPU%,Memory,MemoryPerc,NetworkIO,BlockIO
+2025-08-30 03:28:05,log-collector-poc-logstash-1,58.46%,311MiB / 7.758GiB,3.92%,726B / 126B,171MB / 287kB
+2025-08-30 03:28:12,log-collector-poc-logstash-1,51.42%,324.7MiB / 7.758GiB,4.09%,726B / 126B,171MB / 303kB
+2025-08-30 03:28:18,log-collector-poc-logstash-1,51.60%,355.1MiB / 7.758GiB,4.47%,726B / 126B,187MB / 319kB
+2025-08-30 03:28:25,log-collector-poc-logstash-1,54.71%,451.1MiB / 7.758GiB,5.68%,796B / 126B,213MB / 352kB
+2025-08-30 03:28:31,log-collector-poc-logstash-1,59.79%,485.7MiB / 7.758GiB,6.11%,796B / 126B,225MB / 369kB
+2025-08-30 03:28:38,log-collector-poc-logstash-1,51.96%,499.4MiB / 7.758GiB,6.29%,796B / 126B,243MB / 385kB
+2025-08-30 03:28:44,log-collector-poc-logstash-1,52.94%,537.2MiB / 7.758GiB,6.76%,796B / 126B,261MB / 422kB
+2025-08-30 03:28:51,log-collector-poc-logstash-1,58.09%,567MiB / 7.758GiB,7.14%,2.85kB / 2.09kB,277MB / 438kB
+2025-08-30 03:28:58,log-collector-poc-logstash-1,43.86%,613.9MiB / 7.758GiB,7.73%,7.5kB / 72.7kB,306MB / 455kB
+2025-08-30 03:29:04,log-collector-poc-logstash-1,52.82%,633.4MiB / 7.758GiB,7.97%,8.9kB / 96kB,307MB / 471kB

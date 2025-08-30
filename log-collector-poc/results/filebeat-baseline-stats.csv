@@ -1,0 +1,11 @@
+Timestamp,Container,CPU%,Memory,MemoryPerc,NetworkIO,BlockIO
+2025-08-30 03:13:46,log-collector-poc-filebeat-1,19.41%,166MiB / 7.758GiB,2.09%,94.9kB / 13.4MB,309MB / 65.5kB
+2025-08-30 03:13:53,log-collector-poc-filebeat-1,13.36%,166MiB / 7.758GiB,2.09%,107kB / 15.1MB,316MB / 77.8kB
+2025-08-30 03:13:59,log-collector-poc-filebeat-1,17.14%,166.9MiB / 7.758GiB,2.10%,120kB / 16.9MB,325MB / 81.9kB
+2025-08-30 03:14:06,log-collector-poc-filebeat-1,39.60%,166.3MiB / 7.758GiB,2.09%,137kB / 19.7MB,338MB / 86kB
+2025-08-30 03:14:12,log-collector-poc-filebeat-1,6.11%,166.2MiB / 7.758GiB,2.09%,157kB / 22.7MB,352MB / 98.3kB
+2025-08-30 03:14:19,log-collector-poc-filebeat-1,46.08%,164MiB / 7.758GiB,2.06%,173kB / 25.2MB,364MB / 106kB
+2025-08-30 03:14:26,log-collector-poc-filebeat-1,46.04%,166.8MiB / 7.758GiB,2.10%,198kB / 29.1MB,379MB / 111kB
+2025-08-30 03:14:32,log-collector-poc-filebeat-1,49.04%,166.6MiB / 7.758GiB,2.10%,222kB / 32.8MB,394MB / 119kB
+2025-08-30 03:14:39,log-collector-poc-filebeat-1,38.91%,166.4MiB / 7.758GiB,2.09%,245kB / 36.3MB,407MB / 123kB
+2025-08-30 03:14:45,log-collector-poc-filebeat-1,45.30%,168.7MiB / 7.758GiB,2.12%,272kB / 40MB,422MB / 139kB
