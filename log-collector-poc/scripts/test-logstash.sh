@@ -69,7 +69,7 @@ EOF
 
 test_offline_resilience() {
     local disruption_duration=120
-    local total_duration=60
+    local total_duration=360
     local stats_file="$RESULTS_DIR/logstash-offline-stats.csv"
     
     clear_shared_logs

@@ -88,7 +88,7 @@ EOF
 
 test_offline_resilience() {
     local disruption_duration=120  # 2 minutes
-    local total_duration=60       # 10 minutes total
+    local total_duration=360       # 10 minutes total
     local stats_file="$RESULTS_DIR/fluent-bit-offline-stats.csv"
     
     # Clear logs and restart services
