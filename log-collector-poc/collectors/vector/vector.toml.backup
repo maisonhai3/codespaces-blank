@@ -1,0 +1,23 @@
+[sources.aiscout_logs]
+type = "file"
+include = ["/shared-logs/aiscout.log"]
+read_from = "beginning"
+
+[transforms.parse_json]
+type = "remap"
+inputs = ["aiscout_logs"]
+source = '''
+. = parse_json!(string!(.message))
+'''
+
+[sinks.elasticsearch]
+type = "elasticsearch"
+inputs = ["parse_json"]
+endpoints = ["http://elasticsearch:9200"]
+index = "aiscout-logs"
+compression = "gzip"
+healthcheck.enabled = true
+
+[sinks.elasticsearch.batch]
+max_events = 100
+timeout_secs = 5

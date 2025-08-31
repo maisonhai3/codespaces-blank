@@ -1,3 +1,4 @@
+# Filebeat configuration optimized for 10K logs/sec
 filebeat.inputs:
 - type: log
   enabled: true
@@ -8,21 +9,55 @@ filebeat.inputs:
   fields:
     logtype: aiscout
   fields_under_root: true
+  # High-throughput optimizations
+  scan_frequency: 100ms
+  harvester_buffer_size: 131072
+  max_bytes: 20971520
+  backoff: 100ms
+  max_backoff: 1s
+  backoff_factor: 1.2
+  close_inactive: 30s
+  close_removed: true
+  close_renamed: false
+  clean_inactive: 24h
 
 output.elasticsearch:
   hosts: ["elasticsearch:9200"]
-  index: "aiscout-logs"
+  index: "filebeat-logs-%{+yyyy.MM.dd}"
+  # High-throughput bulk settings
+  bulk_max_size: 5000
+  flush_timeout: 100ms
+  worker: 8
+  compression_level: 0
+  # HTTP settings for high concurrency
+  timeout: 60s
+  max_retries: 3
+  backoff.init: 100ms
+  backoff.max: 10s
+  # Connection pooling
+  keep_alive: 30s
   
 processors:
   - add_host_metadata:
       when.not.contains.tags: forwarded
+  - drop_fields:
+      fields: ["agent.ephemeral_id", "agent.id", "ecs.version", "log.file.path"]
+      ignore_missing: true
       
-logging.level: info
-logging.to_files: true
-logging.files:
-  path: /var/log/filebeat
-  name: filebeat
-  keepfiles: 7
-  permissions: 0644
+# Minimal logging for performance
+logging.level: error
+logging.to_files: false
 
-monitoring.enabled: true
+# Disable monitoring for performance
+monitoring.enabled: false
+
+# High-performance registry settings
+filebeat.registry.path: /var/lib/filebeat/registry
+filebeat.registry.file_permissions: 0600
+filebeat.registry.flush: 100ms
+
+# Queue settings for high throughput
+queue.mem:
+  events: 32768
+  flush.min_events: 2048
+  flush.timeout: 100ms

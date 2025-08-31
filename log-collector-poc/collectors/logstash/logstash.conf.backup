@@ -1,0 +1,39 @@
+input {
+  file {
+    path => "/shared-logs/aiscout.log"
+    start_position => "beginning"
+    sincedb_path => "/dev/null"
+    codec => "json"
+    tags => ["aiscout"]
+  }
+}
+
+filter {
+  if [tags] and "aiscout" in [tags] {
+    # Add some metadata
+    mutate {
+      add_field => { "logtype" => "aiscout" }
+    }
+    
+    # Add timestamp if not present
+    if ![timestamp] {
+      ruby {
+        code => "event.set('timestamp', Time.now.utc.iso8601)"
+      }
+    }
+  }
+}
+
+output {
+  elasticsearch {
+    hosts => ["elasticsearch:9200"]
+    index => "aiscout-logs"
+  }
+  
+  # For debugging
+  stdout {
+    codec => rubydebug {
+      metadata => true
+    }
+  }
+}
