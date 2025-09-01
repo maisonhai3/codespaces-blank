@@ -84,12 +84,20 @@ count_elasticsearch_logs() {
     while [ $retry_count -lt $max_retries ]; do
         local response=$(curl -s -X GET "http://localhost:9200/${index_name}/_count" 2>/dev/null || echo "")
         
+        # If we get a count response, return it
         if echo "$response" | grep -q "count"; then
             local count=$(echo "$response" | jq -r '.count' 2>/dev/null || echo "0")
             echo "$count"
             return 0
         fi
         
+        # If index doesn't exist, that's fine - just means no logs yet
+        if echo "$response" | grep -q "index_not_found_exception"; then
+            echo "0"
+            return 0
+        fi
+        
+        # Only retry if we have a real connection issue
         log_warning "Elasticsearch not ready, retrying... ($((retry_count + 1))/$max_retries)" >&2
         sleep 2
         ((retry_count++))
@@ -107,17 +115,22 @@ wait_for_elasticsearch() {
     log_info "Waiting for Elasticsearch to be ready..."
     
     while [ $retry_count -lt $max_retries ]; do
-        if curl -s -f "http://localhost:9200/_cluster/health" >/dev/null 2>&1; then
-            log_success "Elasticsearch is ready!"
+        # Check cluster health directly
+        local health_response=$(curl -s "http://localhost:9200/_cluster/health" 2>/dev/null || echo "")
+        
+        if echo "$health_response" | grep -q '"status":"green\|yellow"'; then
+            local status=$(echo "$health_response" | jq -r '.status' 2>/dev/null || echo "unknown")
+            log_success "Elasticsearch is ready with status: $status"
             return 0
         fi
         
-        log_info "Elasticsearch not ready, waiting... ($((retry_count + 1))/$max_retries)"
-        sleep 2
+        log_info "Elasticsearch cluster not ready, waiting... ($((retry_count + 1))/$max_retries)"
+        sleep 3
         ((retry_count++))
     done
     
     log_error "Elasticsearch failed to become ready after $max_retries attempts"
+    log_error "Final health check: $(curl -s http://localhost:9200/_cluster/health 2>/dev/null || echo 'No response')"
     return 1
 }
 
